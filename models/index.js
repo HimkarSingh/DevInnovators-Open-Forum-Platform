@@ -1,17 +1,19 @@
 // models/index.js
-const { Sequelize } = require('sequelize');
+const { Sequelize, DataTypes } = require('sequelize'); // Import DataTypes here
 const config = require('../config/database');
 
-// For PostgreSQL
-const sequelize = new Sequelize(config.database, config.username, config.password, {
-  host: config.host,
-  dialect: 'postgres'
-});
+const sequelize = new Sequelize(
+  config.database,
+  config.username,
+  config.password,
+  {
+    host: config.host,
+    dialect: 'postgres'
+  }
+);
 
-// Import models
-const User = require('./User')(sequelize);
+const User = require('./User')(sequelize, DataTypes); // Pass DataTypes explicitly
 
-// Sync models (only in development)
-sequelize.sync({ alter: true });
+sequelize.sync({ alter: true }); // Sync models
 
-module.exports = { User };
+module.exports = { User, sequelize };
